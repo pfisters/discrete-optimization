@@ -2,32 +2,16 @@
 # -*- coding: utf-8 -*-
 import networkx as nx
 
-def equitable_color(edges, node_count):
-    # define graph
-    G = nx.Graph()
-    G.add_edges_from(edges)
-
-    # coloring
-    max_degree = max(G, key=G.degree)
-    coloring = nx.equitable_color(G, max_degree + 1)
-
-    # transform to output format
-    solution = [0]*node_count
-    for key, value in coloring.items():
-        solution[key] = value
-    
-    # specify output format
-    colors = max(coloring.values()) + 1
-    output_data = str(colors) + ' ' + str(0) + '\n'
-    output_data += ' '.join(map(str, solution))
-    
-    return output_data
+def local_search_color_classes(graph, feasible_solution):
+    color_classes = {}
+    return feasible_solution
 
 def greedy_color(edges, node_count):
     # define graph
     G = nx.Graph()
     G.add_edges_from(edges)
 
+    print("[Greedy Color] Edges: ", edges)
     print("[Greedy Color] Maximum Degree: ", max(map(lambda x: x[1], G.degree())))
 
     # coloring
@@ -38,6 +22,9 @@ def greedy_color(edges, node_count):
     for key, value in coloring.items():
         solution[key] = value
     
+    # optimize with local search
+    solution = local_search_color_classes(G, solution)
+
     # specify output format
     colors = max(coloring.values()) + 1
     output_data = str(colors) + ' ' + str(0) + '\n'
@@ -72,7 +59,6 @@ def solve_it(input_data):
 
     # return simple_assignment(node_count)
     return greedy_color(edges, node_count)
-    # return equitable_color(edges, node_count)
 
 import sys
 
